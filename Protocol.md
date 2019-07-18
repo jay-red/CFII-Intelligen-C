@@ -1,7 +1,5 @@
 # ColorfightII Protocol Version 2
 
-Note: all values are unsigned.
-
 ## Clientbound
 
 Every packet that comes from the server is serialized in JSON, and can come from one of two channels:
