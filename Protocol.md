@@ -6,7 +6,7 @@ Every packet that comes from the server is serialized in JSON, and can come from
 `game_channel` or `action_channel`. The `game_channel` is the primary interest, because messages received
 from the `action_channel` only provide information regarding bot actions.
 
-Packets from the `game_channel` look like this:
+Packets from the `game_channel` have the following fields:
 
 |Field    |Meaning|
 |---------|-------|
@@ -62,7 +62,7 @@ This is the first packet sent.
 |action   |Identifies packet as command|
 |cmd_list |A list of command strings|
 
-The first character of the string identifies the type of command.
+The first character of strings in `cmd_list` identifies the type of command.
 
 |Type Indentifier|Meaning|
 |----------------|-------|
