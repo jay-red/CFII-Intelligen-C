@@ -44,10 +44,34 @@ These are the headers for cell data:
 
 ## Serverbound
 
-All packets sent from the client have an `action`. Currently we have `login` and `command`
+All packets sent from the client have an `action`. Currently we have `register` and `command`.
 
 ### Login Action
 This is the first packet sent.
 
-### Command Action
+|Field    |Meaning|
+|---------|-------|
+|action   |Identifies packet as registration|
+|username |Bot username|
+|password |Bot password|
+|join-key |Room password|
 
+### Command Action
+|Field    |Meaning|
+|---------|-------|
+|action   |Identifies packet as command|
+|cmd_list |A list of command strings|
+
+The first character of the string identifies the type of command.
+
+|Type Indentifier|Meaning|
+|----------------|-------|
+|a               |<a href="#attackcmd">Attack</a>|
+|b               |<a href="#buildcmd">Build</a>|
+|u               |<a href="#upgradecmd">Upgrade</a>|
+
+<a name="attackcmd" href="#attackcmd"><h4>Attack Command</h4></a>
+
+<a name="buildcmd" href="#buildcmd"><h4>Build Command</h4></a>
+
+<a name="upgradecmd" href="#upgradecmd"><h4>Upgrade Command</h4></a>
