@@ -23,7 +23,7 @@ a three-dimensional array which holds 30x30x10 elements, but each 10-element arr
 single cell. Each element in the cell array represents a piece of information. The headers for each element can be
 found in `headers`, which is a one-dimensional, 10-element array of strings.
 
-These are the headers for cell data:
+These are the `headers` for cell data:
 
 |index|Header|
 |-----|------|
@@ -37,6 +37,21 @@ These are the headers for cell data:
 |7    |natural_gold|
 |8    |natural_energy|
 |9    |natural_cost|
+
+Those `headers` correspond with elements of `data`  like so:
+
+|Header|Data Type|Meaning|
+|------|---------|-------|
+|attack_cost|int||
+|force_field|int||
+|building|array||
+|gold|int||
+|energy|int||
+|owner|int||
+|position|array||
+|natural_gold|int||
+|natural_energy|int||
+|natural_cost|int||
 
 <a name="roomdata" href="#roomdata"><h3>Room Data</h3></a>
 
