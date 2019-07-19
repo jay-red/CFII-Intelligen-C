@@ -44,3 +44,21 @@ void WebSocket::on_fail( conn_hdl hdl ) {
 void WebSocket::on_message( conn_hdl hdl, client::message_ptr msg ) {
 
 }
+
+int WebSocket::open( std::string const& host ) {
+	// Initialize structure for errors
+	websocketpp::lib::error_code ec;
+
+	// Get a connection object
+	client::connection_ptr conn = endpoint.get_connection( host, ec );
+
+	// Check if any errors exist
+	if( ec ) return -1;
+	
+	// Request a connection
+	endpoint.connect( conn );
+
+	// Start the ASIO loop & make a connection
+	endpoint.run();
+	return 0;
+}
