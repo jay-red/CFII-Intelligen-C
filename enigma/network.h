@@ -19,9 +19,12 @@ class WebSocket {
 		void on_fail( conn_hdl hdl );
 		void on_message( conn_hdl hdl, client::message_ptr msg );
 		int open( std::string const& host );
+		void send( unsigned int cid, std::string message );
 	private:
 		std::map<int, conn_hdl> connections;
 		client endpoint;
+		websocketpp::lib::shared_ptr<websocketpp::lib::thread> wsThread;
+		unsigned int cid;
 };
 
 #endif
