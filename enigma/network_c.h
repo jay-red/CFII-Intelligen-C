@@ -9,9 +9,9 @@ typedef struct WebSocket WebSocket;
 
 WebSocket* initializeWS( void **buffer );
 
-int wsOpen( char const* const host );
+int wsOpen( WebSocket* ws, char const* const host );
 
-int wsSend( unsigned short, char const* const message );
+void wsSend( WebSocket *ws, unsigned short cid, char const* const message );
 
 void terminateWS( WebSocket* ws );
 
