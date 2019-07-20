@@ -6,9 +6,12 @@ using websocketpp::lib::placeholders::_2;
 using std::string;
 using std::map;
 
-WebSocket::WebSocket() {
+WebSocket::WebSocket( void** buffer ) {
 	// Initialize the connection ID counter
 	this->cid = 0;
+
+	// Initialize buffer for message reception
+	this->buffer = buffer;
 
 	// Log everything except message payloads
 	this->endpoint.set_access_channels( websocketpp::log::alevel::all );

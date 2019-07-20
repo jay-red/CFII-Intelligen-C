@@ -12,7 +12,7 @@ typedef websocketpp::connection_hdl conn_hdl;
 
 class WebSocket {
 	public:
-		WebSocket();
+		WebSocket( void** buffer );
 		~WebSocket();
 		void on_open( conn_hdl hdl );
 		void on_close( conn_hdl hdl );
@@ -25,6 +25,7 @@ class WebSocket {
 		client endpoint;
 		websocketpp::lib::shared_ptr<websocketpp::lib::thread> wsThread;
 		unsigned int cid;
+		void **buffer;
 };
 
 #endif

@@ -7,11 +7,13 @@ extern "C" {
 
 typedef struct WebSocket WebSocket;
 
-WebSocket* initWebSocket();
+WebSocket* initializeWS( void **buffer );
 
 int wsOpen( char const* const host );
 
 int wsSend( unsigned short, char const* const message );
+
+void terminateWS( WebSocket* ws );
 
 #ifdef __cplusplus
 }
