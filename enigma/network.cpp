@@ -77,11 +77,11 @@ int WebSocket::open( string const& host ) {
 	return this->cid++;
 }
 
-void WebSocket::send( unsigned int cid, string message ) {
+void WebSocket::send( unsigned short cid, string message ) {
 	// Verify the connection ID is in the valid range
 	if( cid < this->cid ) {
 		// Search for the connection in the map
-		map<int, conn_hdl>::iterator it = connections.find( cid );
+		map<unsigned short, conn_hdl>::iterator it = connections.find( cid );
 
 		// Exit if the ID is not a valid connection
 		if( it == connections.end() ) return;
