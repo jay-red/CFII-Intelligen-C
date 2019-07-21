@@ -3,7 +3,7 @@
 #include <string.h>
 #include "../container/jstring.h"
 
-JString initializeJStr( char const* const str ) {
+JString initializeJStr( CString const str ) {
 	unsigned int len = 0;
 	for( ; str[ len ] != '\0'; ++len );
 	unsigned int** buffer = ( unsigned int** ) malloc( sizeof( void** ) );
@@ -20,7 +20,7 @@ void terminateJStr( JString jstr ) {
 	free( jstr );
 }
 
-void setJStr( JString jstr, char const* const str ) {
+void setJStr( JString jstr, CString const str ) {
 	unsigned int len = 0;
 	for( ; str[ len ] != '\0'; ++len );
 	if( len > **( ( unsigned int** ) jstr ) ) {
@@ -32,14 +32,10 @@ void setJStr( JString jstr, char const* const str ) {
 	memcpy( *( ( unsigned int** ) jstr ) + 2, str, len + 1 );
 }
 
-char charAtJStr( JString jstr, unsigned int index ) {
-	return *( ( char* )( *( ( unsigned int** ) jstr ) + 2 ) + index );
-}
-
 unsigned int lenJStr( JString jstr ) {
 	return *( *( ( unsigned int** ) jstr ) + 1 );
 }
 
-char const* const toString_JStr( JString jstr ) {
-	return ( char const* const )( *( ( unsigned int** ) jstr ) + 2 );
+CString toString_JStr( JString jstr ) {
+	return ( CString )( *( ( unsigned int** ) jstr ) + 2 );
 }

@@ -3,8 +3,9 @@
 #include "enigma.h"
 #include "../network/network_c.h"
 
-Enigma* initializeEnigma() {
+Enigma* initializeEnigma( CString const room ) {
 	Enigma* game = ( Enigma* ) malloc( sizeof( Enigma ) );
+	game->cells = ( Cell* ) malloc( sizeof( Cell ) * 900 );
 	game->ws = initializeWS();
 	game->gameBuffer = initializeJStr("");
 	game->actionBuffer = initializeJStr("");
@@ -14,7 +15,7 @@ Enigma* initializeEnigma() {
 	return game;
 }
 
-int JoinGame( Enigma* game ) {
+int JoinGame( Enigma* game, CString const name, CString const pass ) {
 	while( lenJStr( game->actionBuffer ) == 0 ) {
 		wsSend( game->ws, game->actionCid, "{\"action\":\"register\",\"username\":\"Enigma\",\"password\":\"last-agnikai\",\"join_key\":\"\"}" );
 	}

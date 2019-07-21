@@ -2,7 +2,10 @@ CONTAINER_OBJ = container/arraylist.o \
 		container/heap.o \
 		container/jstring.o 
 
-ENIGMA_OBJ = enigma/enigma.o
+ENIGMA_OBJ = enigma/enigma.o \
+	     enigma/cell.o \
+	     enigma/user.o \
+	     enigma/parse.o
 
 NET_OBJ = network/network_c.o \
 	  network/network.o

@@ -5,8 +5,8 @@
 #include "enigma/enigma.h"
 
 int main() {
-	Enigma* game = initializeEnigma();
-	if( JoinGame( game ) ) {
+	Enigma* game = initializeEnigma( "public" );
+	if( JoinGame( game, "Enigma", "CuteButDeadly" ) ) {
 		return 0;
 	} else {
 		return 1;

@@ -4,16 +4,21 @@
 #include "../container/jstring.h"
 #include "../network/network_c.h"
 
+#include "cell.h"
+
 typedef struct {
 	unsigned short gameCid;
 	unsigned short actionCid;
 	JString gameBuffer;
 	JString actionBuffer;
 	WebSocket* ws;
+	Cell* cells;
 } Enigma;
 
-Enigma* initializeEnigma();
+Enigma* initializeEnigma( CString const room );
 
-int JoinGame( Enigma* game );
+int JoinGame( Enigma* game, CString const name, CString const password );
+
+void Refresh( Enigma* game );
 
 #endif

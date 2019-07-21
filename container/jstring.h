@@ -2,17 +2,16 @@
 #define JSTRING_H
 
 typedef void** JString;
+typedef char const* CString;
 
-JString initializeJStr( char const* const str );
+JString initializeJStr( CString const str );
 
 void terminateJStr( JString jstr );
 
-void setJStr( JString jstr, char const* const str );
+void setJStr( JString jstr, CString const str );
 
 unsigned int lenJStr( JString jstr );
 
-char charAtJStr( JString jstr, unsigned int index );
-
-char const* const toString_JStr( JString jstr );
+CString toString_JStr( JString jstr );
 
 #endif
