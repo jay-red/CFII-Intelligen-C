@@ -49,7 +49,7 @@ WebSocket::~WebSocket() {
 }
 
 void WebSocket::on_open( conn_hdl hdl ) {
-
+	std::cout << "Connected" << std::endl;
 }
 
 void WebSocket::on_close( conn_hdl hdl ) {
@@ -61,7 +61,7 @@ void WebSocket::on_fail( conn_hdl hdl ) {
 }
 
 void WebSocket::on_message( conn_hdl hdl, client::message_ptr msg ) {
-	std::cout << msg->get_payload() << std::endl;	
+	 // std::cout << msg->get_payload() << std::endl;	
 }
 
 int WebSocket::open( string const& host ) {
