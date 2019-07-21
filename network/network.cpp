@@ -1,18 +1,39 @@
 #include "network.h"
-#include "../container/jstring.h"
 
 using websocketpp::lib::bind;
 using websocketpp::lib::placeholders::_1;
 using websocketpp::lib::placeholders::_2;
+using websocketpp::lib::make_shared;
 using std::string;
 using std::map;
 
-WebSocket::WebSocket( JString buffer ) {
+WSConnection::WSConnection( conn_hdl handle, JString buffer ) {
+	this->handle = handle;
+	this->buffer = buffer;
+}
+
+void WSConnection::onOpen( client* endpoint, conn_hdl handle ) {
+	std::cout << "Connected" << std::endl;
+}
+
+void WSConnection::onClose( client* endpoint, conn_hdl handle ) {
+}
+
+void WSConnection::onFail( client* endpoint, conn_hdl handle ) {
+
+}
+
+void WSConnection::onMessage( conn_hdl handle, client::message_ptr msg ) {
+	setJStr( this->buffer, msg->get_payload().c_str() );
+}
+
+conn_hdl WSConnection::getHandle() {
+	return this->handle;
+}
+
+WebSocket::WebSocket() {
 	// Initialize the connection ID counter
 	this->cid = 0;
-
-	// Initialize buffer for message reception
-	this->buffer = buffer;
 
 	// Log everything except message payloads
 	//this->endpoint.set_access_channels( websocketpp::log::alevel::all );
@@ -24,28 +45,21 @@ WebSocket::WebSocket( JString buffer ) {
 	
 	// Provide handler for tls_init
 	this->endpoint.set_tls_init_handler( [ this ]( conn_hdl ) {
-		return websocketpp::lib::make_shared<boost::asio::ssl::context>(boost::asio::ssl::context::tlsv1);
+		return make_shared<boost::asio::ssl::context>(boost::asio::ssl::context::tlsv1);
 	} );
 
-	// Register the handlers
-	this->endpoint.set_open_handler( bind( &WebSocket::on_open, this, ::_1 ) );
-	this->endpoint.set_close_handler( bind( &WebSocket::on_close, this, ::_1 ) );
-	this->endpoint.set_fail_handler( bind( &WebSocket::on_fail, this, ::_1 ) );
-	this->endpoint.set_message_handler( bind( &WebSocket::on_message, this, ::_1, ::_2 ) );
-
 	// Start and store the thread
-	wsThread = websocketpp::lib::make_shared<websocketpp::lib::thread>( &client::run, &endpoint );
+	wsThread = make_shared<websocketpp::lib::thread>( &client::run, &endpoint );
 }
 
 WebSocket::~WebSocket() {
 	// Stop ASIO loop
 	this->endpoint.stop_perpetual();
 
-	for( map<unsigned short, conn_hdl>::iterator it = connections.begin(); it != connections.end(); ++it ) {
+	for( map<unsigned short, WSConnection::ptr>::iterator it = connections.begin(); it != connections.end(); ++it ) {
 		std::cout << it->first << std::endl;
 		close( it->first );
 	}
-		std::cout << "done" << std::endl;
 
 	this->endpoint.stop();
 
@@ -54,22 +68,7 @@ WebSocket::~WebSocket() {
 	this->wsThread.reset();
 }
 
-void WebSocket::on_open( conn_hdl hdl ) {
-	std::cout << "Connected" << std::endl;
-}
-
-void WebSocket::on_close( conn_hdl hdl ) {
-}
-
-void WebSocket::on_fail( conn_hdl hdl ) {
-
-}
-
-void WebSocket::on_message( conn_hdl hdl, client::message_ptr msg ) {
-	setJStr( this->buffer, msg->get_payload().c_str() );
-}
-
-int WebSocket::open( string const& host ) {
+int WebSocket::open( string const& host, JString buffer ) {
 	// Initialize structure for errors
 	websocketpp::lib::error_code ec;
 
@@ -80,8 +79,15 @@ int WebSocket::open( string const& host ) {
 	if( ec ) return -1;
 	
 	// Store server handle
-	this->connections[ this->cid ] = conn->get_handle();
+	WSConnection::ptr wsConn = make_shared<WSConnection>( conn->get_handle(), buffer );
+	this->connections[ this->cid ] = wsConn;
 
+	// Register the handlers
+	conn->set_open_handler( bind( &WSConnection::onOpen, wsConn, &this->endpoint, ::_1 ) );
+	conn->set_close_handler( bind( &WSConnection::onClose, wsConn, &this->endpoint, ::_1 ) );
+	conn->set_fail_handler( bind( &WSConnection::onFail, wsConn, &this->endpoint, ::_1 ) );
+	conn->set_message_handler( bind( &WSConnection::onMessage, wsConn, ::_1, ::_2 ) );
+	
 	// Request a connection
 	this->endpoint.connect( conn );
 
@@ -93,7 +99,7 @@ void WebSocket::send( unsigned short cid, string message ) {
 	// Verify the connection ID is in the valid range
 	if( cid < this->cid ) {
 		// Search for the connection in the map
-		map<unsigned short, conn_hdl>::iterator it = connections.find( cid );
+		map<unsigned short, WSConnection::ptr>::iterator it = connections.find( cid );
 
 		// Exit if the ID is not a valid connection
 		if( it == connections.end() ) return;
@@ -102,7 +108,7 @@ void WebSocket::send( unsigned short cid, string message ) {
 		websocketpp::lib::error_code ec;
 		
 		// Request to send a message
-		this->endpoint.send( it->second, message, websocketpp::frame::opcode::text, ec );
+		this->endpoint.send( it->second->getHandle(), message, websocketpp::frame::opcode::text, ec );
 
 		// if( ec ) { std::cout << ec.message() << std::endl; }
 		// else { std::cout << "succ" << std::endl; }
@@ -113,7 +119,7 @@ void WebSocket::close( unsigned short cid ) {
 	// Verify the connection ID is in the valid range
 	if( cid < this->cid ) {
 		// Search for the connection in the map
-		map<unsigned short, conn_hdl>::iterator it = connections.find( cid );
+		map<unsigned short, WSConnection::ptr>::iterator it = connections.find( cid );
 
 		// Exit if the ID is not a valid connection
 		if( it == connections.end() ) return;
@@ -122,7 +128,7 @@ void WebSocket::close( unsigned short cid ) {
 		websocketpp::lib::error_code ec;
 		
 		// Request to send a message
-		this->endpoint.close( it->second, websocketpp::close::status::force_tcp_drop, "", ec );
+		this->endpoint.close( it->second->getHandle(), websocketpp::close::status::force_tcp_drop, "", ec );
 
 		// if( ec ) { std::cout << ec.message() << std::endl; }
 		// else { std::cout << "succ" << std::endl; }

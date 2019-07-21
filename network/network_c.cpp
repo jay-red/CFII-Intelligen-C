@@ -1,19 +1,17 @@
 #include <string>
 
-#include "../container/jstring.h"
-
 #include "network.h"
 #include "network_c.h"
 
 using std::string;
 
 extern "C" {
-	WebSocket* initializeWS( JString buffer ) {
-		return new WebSocket( buffer );
+	WebSocket* initializeWS() {
+		return new WebSocket();
 	}
 
-	int wsOpen( WebSocket* ws, char const* const host ) {
-		return ws->open( string( host ) );
+	int wsOpen( WebSocket* ws, char const* const host, JString buffer ) {
+		return ws->open( string( host ), buffer );
 	}
 
 	void wsSend( WebSocket* ws, unsigned short cid, char const* const message ) {

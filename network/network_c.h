@@ -7,9 +7,9 @@ extern "C" {
 
 typedef struct WebSocket WebSocket;
 
-WebSocket* initializeWS( void **buffer );
+WebSocket* initializeWS();
 
-int wsOpen( WebSocket* ws, char const* const host );
+int wsOpen( WebSocket* ws, char const* const host, JString buffer );
 
 void wsSend( WebSocket *ws, unsigned short cid, char const* const message );
 
