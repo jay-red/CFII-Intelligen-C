@@ -10,7 +10,7 @@ using websocketpp::lib::placeholders::_2;
 using std::string;
 using std::map;
 
-WebSocket::WebSocket( void** buffer ) {
+WebSocket::WebSocket( JString buffer ) {
 	// Initialize the connection ID counter
 	this->cid = 0;
 
@@ -18,8 +18,8 @@ WebSocket::WebSocket( void** buffer ) {
 	this->buffer = buffer;
 
 	// Log everything except message payloads
-	this->endpoint.set_access_channels( websocketpp::log::alevel::all );
-	this->endpoint.clear_access_channels( websocketpp::log::alevel::frame_payload );
+	// this->endpoint.set_access_channels( websocketpp::log::alevel::all );
+	this->endpoint.clear_access_channels( websocketpp::log::alevel::all );
 	
 	// Initialize ASIO
 	this->endpoint.init_asio();

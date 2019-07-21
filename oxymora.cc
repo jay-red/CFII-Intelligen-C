@@ -6,6 +6,9 @@
 #include "enigma/enigma.h"
 
 int main() {
+	JString test = initializeJStr( "hello world" );
+	setJStr( test, "hello world 2!" );
+	printf( "%u", lenJStr( test ) );
 	int t = JoinGame();
 	return 0;
 }
