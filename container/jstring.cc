@@ -32,6 +32,10 @@ void setJStr( JString jstr, char const* const str ) {
 	memcpy( *( ( unsigned int** ) jstr ) + 2, str, len + 1 );
 }
 
+char charAtJStr( JString jstr, unsigned int index ) {
+	return *( ( char* )( *( ( unsigned int** ) jstr ) + 2 ) + index );
+}
+
 unsigned int lenJStr( JString jstr ) {
 	return *( *( ( unsigned int** ) jstr ) + 1 );
 }

@@ -11,6 +11,8 @@ void setJStr( JString jstr, char const* const str );
 
 unsigned int lenJStr( JString jstr );
 
+char charAtJStr( JString jstr, unsigned int index );
+
 const char* toString_JStr( JString jstr );
 
 #endif

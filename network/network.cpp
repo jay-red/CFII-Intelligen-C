@@ -1,8 +1,5 @@
 #include "network.h"
-
-extern "C" {
-	#include "../container/jstring.h"
-}
+#include "../container/jstring.h"
 
 using websocketpp::lib::bind;
 using websocketpp::lib::placeholders::_1;
@@ -61,7 +58,7 @@ void WebSocket::on_fail( conn_hdl hdl ) {
 }
 
 void WebSocket::on_message( conn_hdl hdl, client::message_ptr msg ) {
-	 // std::cout << msg->get_payload() << std::endl;	
+	setJStr( this->buffer, msg->get_payload().c_str() );
 }
 
 int WebSocket::open( string const& host ) {
