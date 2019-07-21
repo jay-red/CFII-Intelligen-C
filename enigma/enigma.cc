@@ -1,8 +1,9 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "enigma/network_c.h"
+#include "../container/jstring.h"
+#include "../network/network_c.h"
 
-int main() {
+int JoinGame() {
 	void *buffer = malloc( sizeof( int ) + ( 50 * sizeof( char ) ) );
 	WebSocket* ws = initializeWS( &buffer );
 	unsigned short cid = wsOpen( ws, "wss://colorfightai.com/gameroom/public/action_channel" );
