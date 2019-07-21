@@ -40,6 +40,6 @@ unsigned int lenJStr( JString jstr ) {
 	return *( *( ( unsigned int** ) jstr ) + 1 );
 }
 
-const char* toString_JStr( JString jstr ) {
-	return ( const char* )( *( ( unsigned int** ) jstr ) + 2 );
+char const* const toString_JStr( JString jstr ) {
+	return ( char const* const )( *( ( unsigned int** ) jstr ) + 2 );
 }

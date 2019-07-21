@@ -15,7 +15,7 @@ WebSocket::WebSocket( JString buffer ) {
 	this->buffer = buffer;
 
 	// Log everything except message payloads
-	// this->endpoint.set_access_channels( websocketpp::log::alevel::all );
+	//this->endpoint.set_access_channels( websocketpp::log::alevel::all );
 	this->endpoint.clear_access_channels( websocketpp::log::alevel::all );
 	
 	// Initialize ASIO
@@ -41,8 +41,17 @@ WebSocket::~WebSocket() {
 	// Stop ASIO loop
 	this->endpoint.stop_perpetual();
 
+	for( map<unsigned short, conn_hdl>::iterator it = connections.begin(); it != connections.end(); ++it ) {
+		std::cout << it->first << std::endl;
+		close( it->first );
+	}
+		std::cout << "done" << std::endl;
+
+	this->endpoint.stop();
+
 	// Join the thread on close
-	wsThread->join();
+	this->wsThread->join();
+	this->wsThread.reset();
 }
 
 void WebSocket::on_open( conn_hdl hdl ) {
@@ -50,7 +59,6 @@ void WebSocket::on_open( conn_hdl hdl ) {
 }
 
 void WebSocket::on_close( conn_hdl hdl ) {
-
 }
 
 void WebSocket::on_fail( conn_hdl hdl ) {
@@ -95,6 +103,26 @@ void WebSocket::send( unsigned short cid, string message ) {
 		
 		// Request to send a message
 		this->endpoint.send( it->second, message, websocketpp::frame::opcode::text, ec );
+
+		// if( ec ) { std::cout << ec.message() << std::endl; }
+		// else { std::cout << "succ" << std::endl; }
+	}
+}
+
+void WebSocket::close( unsigned short cid ) {
+	// Verify the connection ID is in the valid range
+	if( cid < this->cid ) {
+		// Search for the connection in the map
+		map<unsigned short, conn_hdl>::iterator it = connections.find( cid );
+
+		// Exit if the ID is not a valid connection
+		if( it == connections.end() ) return;
+
+		// Initialize structure for errors
+		websocketpp::lib::error_code ec;
+		
+		// Request to send a message
+		this->endpoint.close( it->second, websocketpp::close::status::force_tcp_drop, "", ec );
 
 		// if( ec ) { std::cout << ec.message() << std::endl; }
 		// else { std::cout << "succ" << std::endl; }

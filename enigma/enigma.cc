@@ -7,10 +7,13 @@ int JoinGame() {
 	JString buffer = initializeJStr("");
 	WebSocket* ws = initializeWS( buffer );
 	unsigned short cid = wsOpen( ws, "wss://colorfightai.com/gameroom/public/action_channel" );
-	printf( "Passed" );
-	while( 1 ) {
+	while( lenJStr( buffer ) == 0 ) {
 		wsSend( ws, cid, "{\"action\":\"register\",\"username\":\"Enigma\",\"password\":\"last-agnikai\",\"join_key\":\"\"}" );
-		printf("%s\n", toString_JStr( buffer ) );
+		printf( "Sent\n" );
 	}
+	printf("%s\n", toString_JStr( buffer ) );
+	//wsClose( ws, cid );
+	terminateWS( ws );
+	terminateJStr( buffer );
 	return 0;
 }

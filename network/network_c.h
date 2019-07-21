@@ -13,6 +13,8 @@ int wsOpen( WebSocket* ws, char const* const host );
 
 void wsSend( WebSocket *ws, unsigned short cid, char const* const message );
 
+void wsClose( WebSocket *ws, unsigned short cid );
+
 void terminateWS( WebSocket* ws );
 
 #ifdef __cplusplus

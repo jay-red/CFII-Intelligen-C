@@ -19,6 +19,10 @@ extern "C" {
 	void wsSend( WebSocket* ws, unsigned short cid, char const* const message ) {
 		ws->send( cid, string( message ) );
 	}
+
+	void wsClose( WebSocket* ws, unsigned short cid ) {
+		ws->close( cid );
+	}
 	
 	void terminateWS( WebSocket* ws ) {
 		delete ws;

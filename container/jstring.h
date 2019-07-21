@@ -13,6 +13,6 @@ unsigned int lenJStr( JString jstr );
 
 char charAtJStr( JString jstr, unsigned int index );
 
-const char* toString_JStr( JString jstr );
+char const* const toString_JStr( JString jstr );
 
 #endif
