@@ -14,6 +14,8 @@ unsigned int lenJStr( JString jstr );
 
 void catJStr( JString jstr, CString const str );
 
+void appendJStr( JString jstr, char const chr );
+
 CString toString_JStr( JString jstr );
 
 #endif

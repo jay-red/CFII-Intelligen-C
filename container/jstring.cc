@@ -51,6 +51,20 @@ void catJStr( JString jstr, CString const str ) {
 	memcpy( ( char* )( *( ( unsigned int** ) jstr ) + 2 ) + tempLen, str, len + 1 );
 }
 
+void appendJStr( JString jstr, char const chr ) {
+	int len = lenJStr( jstr );
+	if( len + 1 > **( ( unsigned int** ) jstr ) ) {
+		unsigned int* temp = *( ( unsigned int** ) jstr );
+		*( ( unsigned int** ) jstr ) = ( unsigned int* ) malloc( ( sizeof( unsigned int ) * 2 ) + ( ( len + 2 ) * sizeof( char ) ) );
+		**( ( unsigned int** ) jstr ) = len + 1;
+		memcpy( ( char* )( *( ( unsigned int** ) jstr ) + 2 ), temp + 2, len );
+		free( temp );
+	}
+	*( *( ( unsigned int** ) jstr ) + 1 ) = len + 1;
+	*( ( char* )( *( ( unsigned int** ) jstr ) + 2 ) + len ) = chr;
+	*( ( char* )( *( ( unsigned int** ) jstr ) + 2 ) + len + 1 ) = '\0';
+}
+
 CString toString_JStr( JString jstr ) {
 	return ( CString )( *( ( unsigned int** ) jstr ) + 2 );
 }

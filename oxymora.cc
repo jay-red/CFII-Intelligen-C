@@ -9,7 +9,8 @@ int main() {
 	JString j = initializeJStr( "" );
 	catJStr( j, "Cute" );	
 	catJStr( j, "But" );	
-	catJStr( j, "Deadly" );	
+	catJStr( j, "Deadly" );
+	appendJStr( j, '!' );	
 	printf( "%u\n", lenJStr( j ) );
 	printf( "%s\n", toString_JStr( j ) );
 	if( JoinGame( game, "Enigma", "CuteButDeadly" ) ) {
