@@ -7,11 +7,12 @@
 int main() {
 	Enigma* game = initializeEnigma( "public" );
 	JString j = initializeJStr( "" );
-	catJStr( j, "Cute" );	
-	catJStr( j, "But" );	
-	catJStr( j, "Deadly" );
+	appendJStr( j, 'c' );	
+	appendJStr( j, 'u' );	
+	appendJStr( j, 't' );	
+	appendJStr( j, 'e' );	
 	appendJStr( j, '!' );	
-	printf( "%u\n", lenJStr( j ) );
+	printf( "%u\n", equalJStr( j, "cute" ) );
 	printf( "%s\n", toString_JStr( j ) );
 	if( JoinGame( game, "Enigma", "CuteButDeadly" ) ) {
 		Refresh( game );

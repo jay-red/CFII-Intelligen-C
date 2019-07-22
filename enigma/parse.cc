@@ -1,14 +1,31 @@
 // parse.cc
 
-#include <stdlib.h>
-#include <stdio.h>
 #include "enigma.h"
+#include "parse.h"
 
 void parseGame( Enigma* game ) {
 	CString* buffer = ( CString* ) malloc( sizeof( CString ) );
 	*buffer = toString_JStr( game->gameBuffer );
+	char keyFlag = 0;
+	if( **buffer != '{' ) return;
+	char depth = 0;
 	for( ; **buffer != '\0'; ( *buffer )++ ) {
-		printf( "%c", **buffer );
+		if( **buffer == '{' ) ++depth;
+		else if( **buffer == '}' ) --depth;
+		if( depth == 1 ) {
+			if( **buffer == '"' ) {
+				if( keyFlag ) {
+					keyFlag = 0;
+					printf( "%s\n", toString_JStr( game->parseBuffer ) );
+
+				} else {
+					keyFlag = 1;
+					setJStr( game->parseBuffer, "" );
+				}
+			} else if( keyFlag ) {
+				appendJStr( game->parseBuffer, **buffer );
+			}
+		}
 	}
 }
 

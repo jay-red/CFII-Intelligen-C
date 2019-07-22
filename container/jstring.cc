@@ -1,7 +1,4 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include "../container/jstring.h"
+#include "jstring.h"
 
 JString initializeJStr( CString const str ) {
 	unsigned int len = 0;
@@ -63,6 +60,10 @@ void appendJStr( JString jstr, char const chr ) {
 	*( *( ( unsigned int** ) jstr ) + 1 ) = len + 1;
 	*( ( char* )( *( ( unsigned int** ) jstr ) + 2 ) + len ) = chr;
 	*( ( char* )( *( ( unsigned int** ) jstr ) + 2 ) + len + 1 ) = '\0';
+}
+
+char equalJStr( JString jstr, CString const str ) {
+	return strcmp( toString_JStr( jstr ), str ) == 0;
 }
 
 CString toString_JStr( JString jstr ) {
