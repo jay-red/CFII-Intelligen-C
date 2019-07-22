@@ -7,6 +7,7 @@
 #include "cell.h"
 
 typedef struct {
+	unsigned short turn;
 	unsigned short gameCid;
 	unsigned short actionCid;
 	JString gameBuffer;
@@ -18,6 +19,8 @@ typedef struct {
 } Enigma;
 
 Enigma* initializeEnigma( CString const room );
+
+void terminateEnigma( Enigma* game );
 
 int JoinGame( Enigma* game, CString const name, CString const password );
 

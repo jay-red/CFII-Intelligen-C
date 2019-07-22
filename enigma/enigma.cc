@@ -6,6 +6,7 @@
 
 Enigma* initializeEnigma( CString const room ) {
 	Enigma* game = ( Enigma* ) malloc( sizeof( Enigma ) );
+	game->turn = 0;
 	game->cells = ( Cell* ) malloc( sizeof( Cell ) * 900 );
 	game->ws = initializeWS();
 	game->gameBuffer = initializeJStr("");
@@ -16,6 +17,15 @@ Enigma* initializeEnigma( CString const room ) {
 	game->actionCid = wsOpen( game->ws, "wss://colorfightai.com/gameroom/public/action_channel", game->actionBuffer );
 	while( lenJStr( game->gameBuffer ) == 0 );
 	return game;
+}
+
+void terminateEnigma( Enigma* game ) {
+	free( game->cells );
+	terminateWS( game->ws );
+	terminateJStr( game->gameBuffer );
+	terminateJStr( game->actionBuffer );
+	terminateJStr( game->parseBuffer );
+	terminateJStr( game->cmdBuffer );
 }
 
 int JoinGame( Enigma* game, CString const name, CString const pass ) {

@@ -57,7 +57,6 @@ WebSocket::~WebSocket() {
 	this->endpoint.stop_perpetual();
 
 	for( map<unsigned short, WSConnection::ptr>::iterator it = connections.begin(); it != connections.end(); ++it ) {
-		std::cout << it->first << std::endl;
 		close( it->first );
 	}
 

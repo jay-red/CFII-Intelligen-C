@@ -23,4 +23,10 @@ void parseUserArr( Enigma* game, CString* buffer );
 
 void parseUser( Enigma* game, CString* buffer );
 
+void parseNum( Enigma* game, CString* buffer );
+
+char parseChar( Enigma* game, CString* buffer );
+
+unsigned short parseShort( Enigma* game, CString* buffer );
+
 #endif
