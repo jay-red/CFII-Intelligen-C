@@ -36,6 +36,21 @@ unsigned int lenJStr( JString jstr ) {
 	return *( *( ( unsigned int** ) jstr ) + 1 );
 }
 
+void catJStr( JString jstr, CString const str ) {
+	unsigned int len = 0;
+	for( ; str[ len ] != '\0'; ++len );
+	unsigned int tempLen = lenJStr( jstr );
+	if( len + tempLen > **( ( unsigned int** ) jstr ) ) {
+		unsigned int* temp = *( ( unsigned int** ) jstr );
+		*( ( unsigned int** ) jstr ) = ( unsigned int* ) malloc( ( sizeof( unsigned int ) * 2 ) + ( ( len + tempLen + 1 ) * sizeof( char ) ) );
+		**( ( unsigned int** ) jstr ) = len + tempLen;
+		memcpy( ( char* )( *( ( unsigned int** ) jstr ) + 2 ), temp + 2, tempLen );
+		free( temp );
+	}
+	*( *( ( unsigned int** ) jstr ) + 1 ) = len + tempLen;
+	memcpy( ( char* )( *( ( unsigned int** ) jstr ) + 2 ) + tempLen, str, len + 1 );
+}
+
 CString toString_JStr( JString jstr ) {
 	return ( CString )( *( ( unsigned int** ) jstr ) + 2 );
 }

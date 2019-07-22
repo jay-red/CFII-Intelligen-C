@@ -1,10 +1,9 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-#include "enigma.h"
 #include "../container/jstring.h"
 
-void parseGame( Enigma* game, JString gameBuffer );
+void parseGame( Enigma* game );
 
 void parseInfo( Enigma* game, CString* buffer );
 

@@ -1,4 +1,4 @@
-all: enigma.o
+all: enigma.o cell.o user.o parse.o
 
 enigma.o: enigma.cc enigma.h
 	gcc -c enigma.cc

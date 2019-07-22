@@ -11,6 +11,8 @@ typedef struct {
 	unsigned short actionCid;
 	JString gameBuffer;
 	JString actionBuffer;
+	JString parseBuffer;
+	JString cmdBuffer;
 	WebSocket* ws;
 	Cell* cells;
 } Enigma;

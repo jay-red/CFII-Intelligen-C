@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "enigma.h"
+#include "parse.h"
 #include "../network/network_c.h"
 
 Enigma* initializeEnigma( CString const room ) {
@@ -9,6 +10,8 @@ Enigma* initializeEnigma( CString const room ) {
 	game->ws = initializeWS();
 	game->gameBuffer = initializeJStr("");
 	game->actionBuffer = initializeJStr("");
+	game->parseBuffer = initializeJStr("");
+	game->cmdBuffer = initializeJStr("");
 	game->gameCid = wsOpen( game->ws, "wss://colorfightai.com/gameroom/public/game_channel", game->gameBuffer );
 	game->actionCid = wsOpen( game->ws, "wss://colorfightai.com/gameroom/public/action_channel", game->actionBuffer );
 	while( lenJStr( game->gameBuffer ) == 0 );
@@ -20,5 +23,9 @@ int JoinGame( Enigma* game, CString const name, CString const pass ) {
 		wsSend( game->ws, game->actionCid, "{\"action\":\"register\",\"username\":\"Enigma\",\"password\":\"last-agnikai\",\"join_key\":\"\"}" );
 	}
 	printf("%s\n", toString_JStr( game->actionBuffer ) );
-	return 0;
+	return 1;
+}
+
+void Refresh( Enigma* game ) {	
+	parseGame( game );
 }
