@@ -8,7 +8,7 @@ int main() {
 	Enigma* game = initializeEnigma( "public" );
 	if( JoinGame( game, "Enigma", "CuteButDeadly" ) ) {
 		Refresh( game );
-		printf( "Turn:%u\n", game->cells[864].building );
+		printf( "Turn:%u\n", GetCell( game, 0, 16 )->building );
 		terminateEnigma( game );
 		return 0;
 	} else {

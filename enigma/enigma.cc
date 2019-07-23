@@ -8,6 +8,7 @@ Enigma* initializeEnigma( CString const room ) {
 	Enigma* game = ( Enigma* ) malloc( sizeof( Enigma ) );
 	game->turn = 0;
 	game->cells = ( Cell* ) malloc( sizeof( Cell ) * 900 );
+	game->users = ( User* ) malloc( sizeof( User ) );
 	game->ws = initializeWS();
 	game->gameBuffer = initializeJStr("");
 	game->actionBuffer = initializeJStr("");
@@ -38,4 +39,8 @@ int JoinGame( Enigma* game, CString const name, CString const pass ) {
 
 void Refresh( Enigma* game ) {	
 	parseGame( game );
+}
+
+Cell* GetCell( Enigma* game, char x, char y ) {
+	return game->cells + ( ( 30 * y ) + x );
 }
