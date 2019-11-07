@@ -1,13 +1,15 @@
 #ifndef ARRAYLIST_H
 #define ARRAYLIST_H
 
+#include <cstdlib>
+
 typedef struct {
 	unsigned int size;
 	unsigned int length;
 	void** arr;
 } ArrayList;
 
-void initializeList();
+void initializeList( ArrayList *list );
 
 void pushBackList( ArrayList *list, void* element );
 
