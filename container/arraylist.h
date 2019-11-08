@@ -9,18 +9,20 @@ typedef struct {
 	void** arr;
 } ArrayList;
 
-void initializeList( ArrayList *list );
+void initialize_list( ArrayList *list );
 
-void pushBackList( ArrayList *list, void* element );
+void push_back_list( ArrayList *list, void* element );
 
-void pushFrontList( ArrayList *list, void* element );
+void push_front_list( ArrayList *list, void* element );
 
-void insertList( ArrayList *list, unsigned int index, void* element );
+void insert_list( ArrayList *list, unsigned int index, void* element );
 
-void* getList( ArrayList *list, unsigned int index );
+void* get_list( ArrayList *list, unsigned int index );
 
-void setList( ArrayList *list, unsigned int index, void* element );
+void set_list( ArrayList *list, unsigned int index, void* element );
 
-void removeList( ArrayList *list, unsigned int index );
+void remove_list( ArrayList *list, unsigned int index );
+
+void clear_list( ArrayList *list );
 
 #endif
