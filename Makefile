@@ -15,7 +15,7 @@ all: subreqs oxymora
 oxymora: oxymora.o $(CONTAINER_OBJ) $(ENIGMA_OBJ) $(NET_OBJ)
 	g++ -o oxymora oxymora.o $(CONTAINER_OBJ) $(ENIGMA_OBJ) $(NET_OBJ) -std=c++11 -I/cs/student/jared_flores/lib -L/cs/student/jared_flores/lib/lib -lboost_system -D_WEBSOCKETPP_CPP11_STL_pthread_condattr_setclock -lpthread -lssl -lcrypto -ldl
 
-oxymora.o: oxymora.cc oxymora.h
+oxymora.o: oxymora.cc
 	gcc -c oxymora.cc
 
 subreqs: FORCE

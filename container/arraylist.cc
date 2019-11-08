@@ -14,7 +14,7 @@ void push_back_list( ArrayList *list, void* element ) {
 		list->arr = ( void** ) realloc( list->arr, list->size * sizeof( void* ) );
 	}
 	*( list->arr + list->length ) = element;
-	list->length++;
+	++( list->length );
 }
 
 void push_front_list( ArrayList *list, void* element ) {
@@ -47,7 +47,7 @@ void remove_list( ArrayList *list, unsigned int index ) {
 		for( unsigned int i = index; i < list->length - 1; ++i ) {
 			*( list->arr + i ) = *( list->arr + i + 1 );
 		}
-		--list->length;
+		--( list->length );
 	}
 }
 

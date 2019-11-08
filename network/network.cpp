@@ -109,8 +109,8 @@ void WebSocket::send( unsigned short cid, string message ) {
 		// Request to send a message
 		this->endpoint.send( it->second->getHandle(), message, websocketpp::frame::opcode::text, ec );
 
-		// if( ec ) { std::cout << ec.message() << std::endl; }
-		// else { std::cout << "succ" << std::endl; }
+		//if( ec ) { std::cout << ec.message() << std::endl; }
+		//else { std::cout << "hello" << std::endl; }
 	}
 }
 

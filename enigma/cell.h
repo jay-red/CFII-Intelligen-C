@@ -10,12 +10,14 @@
 typedef struct {
 	unsigned short attack_cost;
 	unsigned short force_field;
-	char building;
-	char gold;
-	char energy;
-	char owner;
-	char natural_gold;
-	char natural_energy;
+	unsigned char building;
+	signed char gold;
+	signed char energy;
+	unsigned char owner;
+	unsigned char natural_gold;
+	unsigned char natural_energy;
+	unsigned char x;
+	unsigned char y;
 	unsigned short natural_cost;
 } Cell;
 

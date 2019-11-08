@@ -7,6 +7,8 @@
 
 #include "cell.h"
 #include "user.h"
+#include <stdio.h>
+#include <unistd.h>
 
 typedef struct {
 	JString gameBuffer;
@@ -16,6 +18,7 @@ typedef struct {
 	WebSocket* ws;
 	Cell* cells;
 	User* users;
+	User* me;
 	ArrayList* commands;
 	unsigned int commandIndex = 0;
 	unsigned short turn;
@@ -39,7 +42,7 @@ void EndTurn( Enigma* game );
 
 void AppendNumToJStr( JString jstr, unsigned int num );
 
-void Command( Enigma *game, unsigned char x, unsigned char y );
+void Command( Enigma *game, unsigned char cmd, unsigned char x, unsigned char y );
 
 void Attack( Enigma* game, unsigned char x, unsigned char y, unsigned int energy );
 

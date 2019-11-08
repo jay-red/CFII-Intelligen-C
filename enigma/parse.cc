@@ -39,7 +39,7 @@ void parseGame( Enigma* game ) {
 			if( **buffer == '"' ) {
 				if( keyFlag ) {
 					keyFlag = 0;
-					printf( "%s", toString_JStr( game->parseBuffer ) );
+					//printf( "%s", toString_JStr( game->parseBuffer ) );
 					if( equalJStr( game->parseBuffer, "turn" ) ) {
 						game->turn = parseShort( game, buffer );
 					} else if( equalJStr( game->parseBuffer, "info" ) ) {
@@ -47,7 +47,7 @@ void parseGame( Enigma* game ) {
 					} else if( equalJStr( game->parseBuffer, "error" ) ) {
 						parseErrorArr( game, buffer );	
 					} else if( equalJStr( game->parseBuffer, "game_map" ) ) {
-						printf( "%c\n", **buffer );
+						//printf( "%c\n", **buffer );
 						for( ; **buffer == ' ' || **buffer == ':' || **buffer == '"' || **buffer == '{'; ++( *buffer ) );
 						++depth;
 						if( **buffer == 'd' ) {
@@ -62,7 +62,7 @@ void parseGame( Enigma* game ) {
 					} else if( equalJStr( game->parseBuffer, "users" ) ) {
 						parseUserArr( game, buffer );
 					}	
-					printf( "\n" );
+					//printf( "\n" );
 				} else {
 					keyFlag = 1;
 					setJStr( game->parseBuffer, "" );
@@ -138,9 +138,11 @@ void parseCell( Enigma* game, CString* buffer ) {
 	unsigned short index = 0;
 	for( ; **buffer != '['; ++( *buffer ) );
 	*buffer += 1;
-	index += parseChar( game, buffer );
+	unsigned char x = parseChar( game, buffer );
+	index += x;
 	*buffer += 2;
-	index += 30 * parseChar( game, buffer );
+	unsigned char y = parseChar( game, buffer );
+	index += 30 * y;
 	for( ; **buffer != ','; ++( *buffer ) );
 	*buffer += 1;
 	char natural_gold = parseChar( game, buffer );
@@ -149,6 +151,8 @@ void parseCell( Enigma* game, CString* buffer ) {
 	*buffer += 1;
 	unsigned short natural_cost = parseShort( game, buffer );
 	for( ; **buffer != ']'; ++( *buffer ) );
+	game->cells[ index ].x = x;
+	game->cells[ index ].y = y;
 	game->cells[ index ].attack_cost = attack_cost;
 	game->cells[ index ].force_field = force_field;
 	game->cells[ index ].building = building;
@@ -165,7 +169,16 @@ void parseHeaderArr( Enigma* game, CString* buffer ) {
 }
 
 void parseUserArr( Enigma* game, CString* buffer ) {
-
+	for( ; **buffer != '['; ++( *buffer ) );
+	char depth = 0;
+	for( ; **buffer != '\0'; ++( *buffer ) ) {
+		if( **buffer == '[' ) ++depth;
+		else if( **buffer == ']' ) --depth;
+		if( depth == 0 ) return;
+		else if( depth == 3 ) {
+			//parseCell( game, buffer );
+		}
+	}
 }
 
 void parseUser( Enigma* game, CString* buffer ) {
