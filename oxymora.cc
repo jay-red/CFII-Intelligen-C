@@ -40,7 +40,6 @@ int main() {
 		i = top_heap( &h );
 	}
 	Enigma* game = ( Enigma* ) malloc( sizeof( Enigma ) );
-		printf( "%d\n",  1004 );
 	initialize_enigma( game, "public" );
 	if( JoinGame( game, "Enigma", "CuteButDeadly" ) ) {
 		Refresh( game );

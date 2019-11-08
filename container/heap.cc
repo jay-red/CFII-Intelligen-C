@@ -1,10 +1,10 @@
 // heap.cc
 #include "heap.h"
-#include <stdio.h>
 
 void initialize_heap( Heap* heap, unsigned char( *compare )( void* ptr1, void* ptr2 ) ) {
 	heap->data = ( ArrayList* ) malloc( sizeof( ArrayList ) );
 	heap->compare = compare;
+	initialize_list( heap->data );
 	push_back_list( heap->data, 0 );
 }
 
@@ -26,7 +26,6 @@ void pop_heap( Heap* heap ) {
 		set_list( heap->data, 1, get_list( heap->data, length - 1 ) );
 		remove_list( heap->data, length - 1 );
 		--length;
-		printf( "%d\n\n", heap->data->length );
 		if( length == 1 ) return;
 
 		unsigned int index = 1, parentIndex = 1, leftIndex = 2, rightIndex = 3;
