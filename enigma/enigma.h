@@ -27,7 +27,7 @@ void initialize_enigma( Enigma* game, CString const room );
 
 void terminate_enigma( Enigma* game );
 
-int JoinGame( Enigma* game, CString const name, CString const password );
+unsigned char JoinGame( Enigma* game, CString const name, CString const password );
 
 void Refresh( Enigma* game );
 

@@ -30,7 +30,7 @@ void terminate_enigma( Enigma* game ) {
 	terminateJStr( game->cmdBuffer );
 }
 
-int JoinGame( Enigma* game, CString const name, CString const pass ) {
+unsigned char JoinGame( Enigma* game, CString const name, CString const pass ) {
 	while( lenJStr( game->actionBuffer ) == 0 ) {
 		wsSend( game->ws, game->actionCid, "{\"action\":\"register\",\"username\":\"Enigma\",\"password\":\"last-agnikai\",\"join_key\":\"\"}" );
 	}
